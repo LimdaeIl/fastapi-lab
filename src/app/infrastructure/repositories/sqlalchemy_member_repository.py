@@ -5,6 +5,7 @@ from app.domain.members.repositories.member_repository import MemberRepository
 from sqlalchemy import update
 from app.infrastructure.db.models.member_model import MemberModel
 
+
 class SqlAlchemyMemberRepository(MemberRepository):
     def __init__(self, db: Session):
         self.db = db
@@ -12,8 +13,7 @@ class SqlAlchemyMemberRepository(MemberRepository):
     def save(self, member: Member) -> Member:
         row = MemberModel(
             email=member.email,
-            password_hash=member.password_hash,
-
+            password=member.password,
         )
         self.db.add(row)
         self.db.commit()
@@ -21,7 +21,7 @@ class SqlAlchemyMemberRepository(MemberRepository):
         return Member(
             id=row.id,
             email=row.email,
-            password_hash=row.password_hash,
+            password=row.password,
             role=row.role,
             token_version=row.token_version,
             created_at=row.created_at,
@@ -34,7 +34,7 @@ class SqlAlchemyMemberRepository(MemberRepository):
         return Member(
             id=row.id,
             email=row.email,
-            password_hash=row.password_hash,
+            password=row.password,
             role=row.role,
             token_version=row.token_version,
             created_at=row.created_at,
@@ -47,7 +47,7 @@ class SqlAlchemyMemberRepository(MemberRepository):
         return Member(
             id=row.id,
             email=row.email,
-            password_hash=row.password_hash,
+            password=row.password,
             role=row.role,
             token_version=row.token_version,
             created_at=row.created_at,
