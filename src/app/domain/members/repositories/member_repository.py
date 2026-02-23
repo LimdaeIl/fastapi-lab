@@ -6,7 +6,7 @@ class MemberRepository(ABC):
 
     @abstractmethod
     def save(self, member: Member) -> Member:
-        """저장 후 DB에서 생성된 id가 반영된 Member를 반환"""
+        """저장 후  DB에서생성된 id가 반영된 Member를 반환"""
         raise NotImplementedError
 
     @abstractmethod
