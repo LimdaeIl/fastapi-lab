@@ -9,11 +9,15 @@ class MemberModel(Base):
     __tablename__ = "members"
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
-    email: Mapped[str] = mapped_column(String(255), unique=True, index=True, nullable=False)
+    email: Mapped[str] = mapped_column(
+        String(255), unique=True, index=True, nullable=False
+    )
     password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
 
     role: Mapped[str] = mapped_column(String(20), nullable=False, server_default="user")
-    token_version: Mapped[int] = mapped_column(BigInteger, nullable=False, server_default="0")
+    token_version: Mapped[int] = mapped_column(
+        BigInteger, nullable=False, server_default="0"
+    )
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=False),

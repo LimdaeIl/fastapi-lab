@@ -2,22 +2,35 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
 from app.infrastructure.db.session import get_db
-from app.infrastructure.repositories.sqlalchemy_member_repository import SqlAlchemyMemberRepository
+from app.infrastructure.repositories.sqlalchemy_member_repository import (
+    SqlAlchemyMemberRepository,
+)
 
 from app.application.auth.login_usecase import LoginUseCase
 from app.application.auth.refresh_usecase import RefreshUseCase
 from app.application.auth.logout_usecase import LogoutUseCase
+from app.application.auth.signup_usecase import SignupUseCase
+
 
 from app.interfaces.http.v1.auth.schemas import (
     LoginRequest,
     TokenResponse,
     RefreshRequest,
     LogoutRequest,
+    SignupRequest,
+    SignupResponse,
 )
 
 from app.common.responses.success_response import SuccessResponse
 
 router = APIRouter()
+
+
+@router.post("/signup", response_model=SuccessResponse[SignupResponse], status_code=201)
+def signup(payload: SignupRequest, db: Session = Depends(get_db)):
+    repo = SqlAlchemyMemberRepository(db)
+    member = SignupUseCase(repo).execute(payload.email, payload.password)
+    return SuccessResponse(data=SignupResponse(id=member.id, email=member.email))
 
 
 @router.post(

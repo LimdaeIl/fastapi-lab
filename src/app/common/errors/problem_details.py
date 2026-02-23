@@ -7,6 +7,7 @@ class ProblemDetails(BaseModel):
     RFC 9457 (Problem Details for HTTP APIs) compatible payload.
     Extension members are allowed (e.g., code, errors, trace_id).
     """
+
     model_config = ConfigDict(extra="allow")
 
     type: str

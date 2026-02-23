@@ -5,8 +5,7 @@ from app.common.errors.app_exception import AppException
 from app.common.errors.error_code import ErrorCode
 
 
-class RegisterMemberUseCase:
-
+class SignupUseCase:
     def __init__(self, member_repo: MemberRepository):
         self.member_repo = member_repo
 
@@ -18,8 +17,7 @@ class RegisterMemberUseCase:
                 message="Email already exists",
                 status_code=409,
             )
+
         password_hash = hash_password(password)
         member = Member.create(email=email, password_hash=password_hash)
-
-        saved = self.member_repo.save(member)
-        return saved
+        return self.member_repo.save(member)

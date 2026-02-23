@@ -39,7 +39,9 @@ def create_access_token(member_id: int, role: str, token_version: int) -> str:
     )
 
 
-def create_refresh_token(member_id: int, role: str, token_version: int) -> tuple[str, str]:
+def create_refresh_token(
+    member_id: int, role: str, token_version: int
+) -> tuple[str, str]:
     jti = str(uuid4())
     token = _create_token(
         payload={

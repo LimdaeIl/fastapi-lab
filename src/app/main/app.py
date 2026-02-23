@@ -16,6 +16,9 @@ from app.main.exception_handlers import (
     unhandled_exception_handler,
 )
 
+from fastapi.middleware.cors import CORSMiddleware
+
+
 def create_app() -> FastAPI:
     app = FastAPI(title=settings.app_name, debug=settings.app_debug)
     app.include_router(v1_router, prefix="/api")
@@ -27,7 +30,21 @@ def create_app() -> FastAPI:
 
     return app
 
+
 app = create_app()
+
+origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.add_exception_handler(AppException, app_exception_handler)
 app.add_exception_handler(RequestValidationError, validation_exception_handler)

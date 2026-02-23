@@ -4,18 +4,28 @@ from sqlalchemy.orm import Session
 
 from app.common.errors.app_exception import AppException
 from app.common.errors.error_code import ErrorCode
-from app.common.security.jwt import safe_decode, require_token_type, get_subject_member_id, get_token_version
+from app.common.security.jwt import (
+    safe_decode,
+    require_token_type,
+    get_subject_member_id,
+    get_token_version,
+)
 from app.infrastructure.db.session import get_db
-from app.infrastructure.repositories.sqlalchemy_member_repository import SqlAlchemyMemberRepository
+from app.infrastructure.repositories.sqlalchemy_member_repository import (
+    SqlAlchemyMemberRepository,
+)
 
 bearer_scheme = HTTPBearer(auto_error=False)
+
 
 def get_current_member(
     credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
     db: Session = Depends(get_db),
 ):
     if credentials is None or credentials.scheme.lower() != "bearer":
-        raise AppException(ErrorCode.TOKEN_INVALID, "Not authenticated", status_code=401)
+        raise AppException(
+            ErrorCode.TOKEN_INVALID, "Not authenticated", status_code=401
+        )
 
     payload = safe_decode(credentials.credentials)
     require_token_type(payload, "access")

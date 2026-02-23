@@ -87,7 +87,9 @@ class RefreshUseCase:
 
         # 새 토큰 발급 (member.token_version 그대로)
         new_access = create_access_token(member_id, member.role, member.token_version)
-        new_refresh, new_jti = create_refresh_token(member_id, member.role, member.token_version)
+        new_refresh, new_jti = create_refresh_token(
+            member_id, member.role, member.token_version
+        )
         self.refresh_store.save(new_jti, member_id)
 
         return new_access, new_refresh

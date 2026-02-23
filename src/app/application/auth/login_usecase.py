@@ -9,7 +9,6 @@ from app.common.errors.app_exception import AppException
 from app.common.errors.error_code import ErrorCode
 
 
-
 class LoginUseCase:
 
     def __init__(self, repo: MemberRepository):
@@ -33,10 +32,10 @@ class LoginUseCase:
                 status_code=401,
             )
 
-        access_token = create_access_token(member.id, member.role,
-                                           member.token_version)
-        refresh_token, jti = create_refresh_token(member.id, member.role,
-                                                  member.token_version)
+        access_token = create_access_token(member.id, member.role, member.token_version)
+        refresh_token, jti = create_refresh_token(
+            member.id, member.role, member.token_version
+        )
 
         self.refresh_store.save(jti, member.id)
 
