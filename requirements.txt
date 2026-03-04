@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+
+sqlalchemy>=2.0
+aiomysql
+
+pydantic-settings
+passlib[bcrypt]
+python-jose[cryptography]
+
+redis>=5.0
